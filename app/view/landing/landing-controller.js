@@ -11,7 +11,6 @@ module.exports = ['$log', '$rootScope', '$mdDialog', '$location', '$mdMedia', '$
 function LandingController($log, $rootScope, $mdDialog, $location, $mdMedia, $scope) {
   $log.debug('LandingController');
 
-  // let url = $location.url() === '/join#signup' || url === '/join';
   this.signup = function($event, bindFlag) {
     const dialogConfig = {
       fullscreen: !$mdMedia('gt-sm'),
@@ -29,7 +28,4 @@ function LandingController($log, $rootScope, $mdDialog, $location, $mdMedia, $sc
     };
     $mdDialog.show(Object.assign(signinUserComponent, dialogConfig));
   };
-  // $rootScope.$on('$locationChangeSuccess', () => {
-  //
-  // });
 }

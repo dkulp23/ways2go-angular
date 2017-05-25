@@ -1,18 +1,14 @@
-<section>
-  <md-card>
-    <md-subheader class="md-no-sticky">My Ways</md-subheader>
-
-    <md-list-item class="secondary-button-padding" layout-margin layout-padding ng-repeat="way in waythumbnailCtrl.myWays | limitTo: 3">
-      <span class="md-title md-truncate">{{ way.name }}</span>
-      <div layout="column">
-        <span class="md-subhead md-truncate">Start: {{ way.startLocation.street}} {{ way.startLocation.city}} {{ way.startLocation.state}} </span>
-        <span class="md-subhead md-truncate">End: {{ way.endLocation.street}} {{ way.endLocation.city}} {{ way.endLocation.state}}</span>
-      </div>
-      <span></span>
-      <span class="md-subhead">{{way.oneTimeDate | limitTo : 10}}</span>
-      <span class="md-subhead">{{way.hour}} {{way.minutes}}</span>
-      <md-button class="md-secondary" ng-click="">See Way</md-button>
-    </md-list-item>
-
-  </md-card>
-</section>
+<md-list flex="auto" layout="row" style="overflow: scroll;">
+  <md-list-item class="md-3-line" ng-repeat="way in waythumbnailCtrl.ways | limitTo: 3"
+    ng-click="waythumbnailCtrl.showWay(way._id)" flex="grow">
+    <md-button class="md-fab-mini" flex="none">
+      <img ng-show="way.wayerz[0].photo" src="{{way.wayerz[0].photo}}" class="md-avatar">
+      <md-icon ng-show="!way.wayerz[0].photo" ng-md-icon icon="directions_car"></md-icon>
+    </md-button>
+    <div class="md-list-item-text md-truncate" layout="column">
+        <h3>Name: {{ way.name  }}</h3>
+        <p>Start: {{ way.startLocation.street}} {{ way.startLocation.city}} {{ way.startLocation.state}} </p>
+        <p>End: {{ way.endLocation.street}} {{ way.endLocation.city}} {{ way.endLocation.state}}</p>
+    </div>
+  </md-list-item>
+</md-list>

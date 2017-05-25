@@ -19,23 +19,16 @@ function MessageThumbnailController($q, $log, $http, $interval, $mdMedia, $scope
 
   this.messages = [];
   profileService.fetchProfile()
-  .then((profile) => {
+  .then( profile => {
     this.profile = profile;
-    console.log('this in messages', this);
     return messageService.fetchMessages();
   })
-  .catch((e) => {
-    console.error("Failed to fetch profile: ", e);
-    // this.profile = {_id: '58f7e2802a70f40011b1ad16'};
+  .catch( err => {
+    console.error(err.data);
     return messageService.fetchMessages();
   })
   .then((messages) => {
     this.messages = messages;
-    // this.messages.push({title:'Hi!', text: 'TEST Incoming: Are you there?', timestamp: '3:22am',
-    //   toProfileId: this.profile._id, fromProfileId: 'foo'});
-    // this.messages.push({title:'Hi!', text: 'TEST Outgoing: Are you there?', timestamp: '3:22am',
-    //   fromProfileId: this.profile._id, toProfileId: 'foo'});
-
     if (this.incoming) {
       this.messages = this.messages.filter((msg) => (msg.toProfileID == this.profile._id));
     } else {
@@ -63,7 +56,6 @@ function MessageThumbnailController($q, $log, $http, $interval, $mdMedia, $scope
       message.displayName = profile.displayName;
       message.photo = profile.photo;
       message.showTime = new Date(message.timestamp);
-      console.log(message.showTime);
     });
   };
 

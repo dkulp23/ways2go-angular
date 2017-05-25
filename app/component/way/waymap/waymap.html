@@ -1,9 +1,7 @@
 <div class="cpt-waymap" layout-fill>
   <ng-map
     layout-fill
-    center="current-location"
-    geo-fallback-center="47.618217,-122.351832"
-    class="map"
+    center="wayMapCtrl.centerOnLoad"
     street-view-control-options="{position:'RIGHT_BOTTOM'}"
     zoom-control-options="{style:'SMALL', position:'RIGHT_BOTTOM'}"
     map-type-control-options="{style:'HORIZONTAL_BAR', position:'BOTTOM_CENTER'}"

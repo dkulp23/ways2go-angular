@@ -23,6 +23,9 @@ function WayDetailController($log, $http, $interval, NgMap, wayService, $mdMedia
     this.profile = profile;
   });
 
+  console.log('this up in way detail', this);
+  console.log('this ways up in way detail', this.ways);
+
   this.viewWay = function ($event, bindFlag, way) {
     const dialogConfig = {
       fullscreen: !$mdMedia('gt-sm'),

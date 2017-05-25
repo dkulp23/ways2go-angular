@@ -45,7 +45,6 @@ function EditWayController($log, $mdDialog, $mdToast, wayService, way, profileSe
     addPropToForm(prop);
   }
 
-  console.log('waysubit init', this.waySubmit);
   this.startLocation = displayLocation(way.startLocation);
   this.endLocation = displayLocation(way.endLocation);
 
@@ -53,7 +52,6 @@ function EditWayController($log, $mdDialog, $mdToast, wayService, way, profileSe
   this.isPM = true;
   const dayMap = { M: 0, T: 1, W: 2, R: 3, F: 4, Sa: 5, Su: 6 };
 
-  console.log('this in edit load', this);
 
   this.isLoading = false;
   this.isLoadingDelete = false;
@@ -103,7 +101,6 @@ function EditWayController($log, $mdDialog, $mdToast, wayService, way, profileSe
 
     wayService.deleteWay(this.way._id)
     .then( res => {
-      console.log('this in deletewaysubmit', this);
       $mdToast.showSimple('Deleted Way Successfully');
       this.isLoading = false;
       $scope.$emit('wayModify');
@@ -129,15 +126,10 @@ function EditWayController($log, $mdDialog, $mdToast, wayService, way, profileSe
     this.waySubmit.startLocation = this.startLocation;
     this.waySubmit.endLocation = this.endLocation;
 
-    console.log('this.way before api call', this.waySubmit);
-
     wayService.editWay(this.waySubmit)
     .then( res => {
-      console.log('edit way rezzy', res);
       $mdToast.showSimple('Changed Way Successfully');
       this.isLoading = false;
-
-      console.log('this in edit way submit promise', this);
 
       $scope.$emit('wayModify');
       $mdDialog.hide();
@@ -167,8 +159,6 @@ function EditWayController($log, $mdDialog, $mdToast, wayService, way, profileSe
       list.push(dayMap[item]);
     }
   };
-
-
 }
 
 function displayLocation({number, street, city, state}) {

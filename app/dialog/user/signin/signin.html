@@ -26,6 +26,21 @@
 
     <md-dialog-actions>
       <md-button
+        ng-show="signinCtrl.isAuthorized"
+        ng-click="signinCtrl.updateUser($event, true)"
+        class="md-fab md-mini md-warn" aria-label="edit user details">
+        <md-tooltip md-autohide md-direction="right">edit user details</md-tooltip>
+        <md-icon ng-md-icon icon="create"></md-icon>
+      </md-button>
+      <span flex></span>
+      <md-button
+        ng-show="signinCtrl.isAuthorized"
+        ng-click="signinCtrl.goHome()"
+        class="md-fab md-mini" aria-label="homepage">
+        <md-tooltip md-autohide md-direction="left">homepage</md-tooltip>
+        <md-icon ng-md-icon icon="home"></md-icon>
+      </md-button>
+      <md-button
         ng-show="!signinCtrl.isAuthorized"
         ng-click="signinCtrl.signinUser()"
         class="md-primary md-raised">
@@ -35,24 +50,6 @@
           md-diameter="20"
           class="md-accent md-hue-1 float-left">
         </md-progress-circular>
-      </md-button>
-      <md-button
-        ng-show="signinCtrl.isAuthorized"
-        ng-click="signinCtrl.goHome()"
-        class="md-primary md-raised" layout layout-align="center center">
-        <span>take me to my homepage</span>
-      </md-button>
-      <md-button
-        ng-show="signinCtrl.isAuthorized"
-        ng-click="signinCtrl.updateUser($event, true)"
-        class="md-primary md-raised" layout layout-align="center center">
-        <span>update user details</span>
-      </md-button>
-      <md-button
-        ng-show="signinCtrl.isAuthorized"
-        ng-click="signinCtrl.deleteUser()"
-        class="md-primary md-raised" layout layout-align="center center">
-        <span>delete account</span>
       </md-button>
     </md-dialog-actions>
 

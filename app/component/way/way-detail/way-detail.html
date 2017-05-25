@@ -1,20 +1,36 @@
-<div class="way-detail">
-  <md-card flex="none" ng-repeat="way in wayDetailCtrl.ways | orderBy:'distance'" class="md-primary" ng-click="wayDetailCtrl.viewWay($event, true, way)">
-    <md-card-header md-colors="{{ way.wayerz[0]._id === wayDetailCtrl.profile._id ? {backgroundColor: 'default-warn'} : '' }}">
-      <md-card-header-text>
-        <div layout="row">
-          <span class="md-title" flex>{{ way.name || 'Way' }}</span>
-          <span class="md-subhead" flex="none">{{ way.distance | number:1 }} mi</span>
-        </div>
-      </md-card-header-text>
-      <!-- <md-card-avatar>
+<div class="way-detail" >
+  <div flex="20"><br><br><br><br></div>
+  <div flex>
+    <md-card flex ng-repeat="way in wayDetailCtrl.ways | orderBy:'distance'" class="md-primary" ng-click="wayDetailCtrl.viewWay($event, true, way)">
+      <md-card-header md-colors="{{ way.wayerz[0]._id === wayDetailCtrl.profile._id ? {backgroundColor: 'swag-accent'} : '' }}">
+        <md-card-header-text>
+          <div layout="row">
+            <span class="md-title" flex>{{ way.name || 'Way' }}</span>
+            <span class="md-subhead" flex="none" md-colors="{{ way.wayerz[0]._id === wayDetailCtrl.profile._id ? {color: 'grey-900'} : '' }}">{{ way.distance > 0.1 ? ( way.distance | number:1 ) + ' mi' : 'current' }}</span>
+          </div>
+        </md-card-header-text>
+        <!-- <md-card-avatar>
         <img src="{{way.wayerz[0].photo}}"/>
       </md-card-avatar> -->
     </md-card-header>
-    <md-card-content layout="column" layout-align="center center">
-      <p>{{way.startLocation.street}} {{way.startLocation.city}} {{way.startLocation.state}}</p>
-      <md-icon ng-md-icon icon="arrow_downward"></md-icon>
-      <p>{{way.endLocation.street}} {{way.endLocation.city}} {{way.endLocation.state}}</p>
+    <md-card-content layout="row">
+      <div layout="column" layout-align="center center" flex="70">
+        <p class="md-truncate">{{way.startLocation.street}} {{way.startLocation.city}} {{way.startLocation.state}}</p>
+        <md-icon ng-md-icon icon="arrow_downward"></md-icon>
+        <p class="md-truncate">{{way.endLocation.street}} {{way.endLocation.city}} {{way.endLocation.state}}</p>
+      </div>
+      <div layout="column" layout-align="center center" flex="30">
+        <div class="md-truncate" ng-show="way.recurringDayOfWeek.length" layout="row">
+          <md-icon ng-md-icon icon="today" flex="none"></md-icon>
+          <p flex>Daily</p>
+        </div>
+        <div class="md-truncate" ng-show="way.oneTimeDate" layout="row">
+          <md-icon ng-md-icon icon="today" flex="none"></md-icon>
+          <p flex>{{ way.oneTimeDate | date : 'shortDate' }}</p>
+        </div>
+      </div>
     </md-card-content>
   </md-card>
+
+  </div>
 </div>

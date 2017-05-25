@@ -6,21 +6,23 @@ const viewOneProfileComponent = require('../../../dialog/profile/view-one-profil
 
 const editWayComponent = require('../../../dialog/way/edit-way/edit-way.js');
 
+const createReviewComponent = require('../../../dialog/review/create-review/create-review.js');
+
 module.exports = {
   template: require('./view-way.html'),
-  controller: ['$log', '$mdDialog', '$mdToast','wayService', 'way', '$scope', 'messageService', 'profileService', '$mdMedia', ViewWayController],
+  controller: ['$log', '$mdDialog', '$mdToast','wayService', 'way', '$scope', 'messageService', 'profileService', 'reviewService', '$mdMedia', ViewWayController],
   controllerAs: 'viewWayCtrl'
 };
 
-function ViewWayController($log, $mdDialog, $mdToast, wayService, way, $scope, messageService, profileService, $mdMedia) {
-  console.log('this.way on view way ctrl before', this.way);
+function ViewWayController($log, $mdDialog, $mdToast, wayService, way, $scope, messageService, profileService, reviewService, $mdMedia) {
   this.way = wayService.getOneWay(way._id);
-
-  console.log('this.way on view way ctrl after', this.way);
 
   profileService.fetchProfile()
   .then( profile => {
     this.profile = profile;
+    this.isInWay = this.way.wayerz.filter(function(ele) {
+      return ele._id === profile._id;
+    }).length > 0;
   });
 
   this.name = this.way.name || 'Way';
@@ -28,9 +30,6 @@ function ViewWayController($log, $mdDialog, $mdToast, wayService, way, $scope, m
   this.startLocation = displayLocation(way.startLocation);
   this.endLocation = displayLocation(way.endLocation);
 
-  console.log('wayer 0', this.way.wayerz[0]);
-
-  // this.isPM = true;
   const dayMap = { '0': 'Monday', '1':'Tuesday', '2':'Wednesday', '3': 'Thursday', '4': 'Friday', '5': 'Saturday', '6': 'Sunday'};
 
   let dayArray = [];
@@ -53,7 +52,7 @@ function ViewWayController($log, $mdDialog, $mdToast, wayService, way, $scope, m
       this.hour = this.way.hour;
       this.ampm = 'am';
     }
-    this.minutes = this.way.minutes;
+    this.showMinutes = this.way.minutes < 10 ? `0${this.way.minutes}` : this.way.minutes;
   }
 
   this.dayArray = dayArray;
@@ -62,7 +61,6 @@ function ViewWayController($log, $mdDialog, $mdToast, wayService, way, $scope, m
 
   this.editWay = function ($event, bindFlag, way) {
     const dialogConfig = {
-      // scope: $scope.$new(true),
       fullscreen: !$mdMedia('gt-sm'),
       targetEvent: $event,
       resolve: {
@@ -74,33 +72,54 @@ function ViewWayController($log, $mdDialog, $mdToast, wayService, way, $scope, m
     $mdDialog.show(Object.assign(editWayComponent, dialogConfig));
   };
 
-  this.viewProfile = function($event, bindFlag, profile) {
+  this.viewProfile = function($event, profile) {
     const dialogConfig = {
       fullscreen: !$mdMedia('gt-sm'),
       targetEvent: $event,
       resolve: {
         profile: function() {
           return profile;
+        },
+        reviews: function(reviewService) {
+          return reviewService.fetchReviews(profile)
+          .then( reviews => {
+            return reviews;
+          });
         }
-      },
+      }
     };
     $mdDialog.show(Object.assign(viewOneProfileComponent, dialogConfig));
+  };
+
+  this.leaveReview = function($event, profile, way) {
+    const dialogConfig = {
+      fullscreen: !$mdMedia('gt-sm'),
+      targetEvent: $event,
+      resolve: {
+        profile: function() {
+          return profile;
+        },
+        way: function() {
+          return way;
+        }
+      }
+    };
+
+    $mdDialog.show(Object.assign(createReviewComponent, dialogConfig));
   };
 
   this.joinSubmit = function() {
     this.isLoading = true;
 
-    console.log(this.way);
-
     const joinMessage = {
       subject: `${this.profile.displayName} wants to join your way!`,
-      text: `Please add me to way ${this.way._id}`,
+      text: `Please add me to your ${this.way.name ? this.way.name : '' } Way: ${this.way._id}`,
       toProfileID: this.way.wayerz[0]._id
     };
 
 
     messageService.createMessage(joinMessage)
-    .then( res => {
+    .then( () => {
       $mdToast.showSimple('Request to Join Sent Successfully!');
       this.isLoading = false;
 

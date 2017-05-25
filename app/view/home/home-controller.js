@@ -2,27 +2,21 @@
 
 require('./_home.scss');
 
-module.exports = ['$log', '$rootScope', '$mdToast', 'profileService', 'wayService', HomeController]; //TODO: Add service dependencies
+module.exports = ['$log', '$rootScope', '$mdToast', 'reviewService', 'profile', 'ways', HomeController]; //TODO: Add service dependencies
 
-function HomeController($log, $rootScope, $mdToast, profileService, wayService ) {
+function HomeController($log, $rootScope, $mdToast, reviewService, profile, ways) {
   $log.debug('HomeContoller');
 
-  // this.profile = {};
-  wayService.fetchWays()
-  .then( ways => {
-    $log.log('ways fetched on home view');
-  })
+  this.profile = profile;
+  this.ways = ways;
 
-  this.fetchProfile = function() {
-    profileService.fetchProfile()
-    .then( profile => {
-      this.profile = profile;
-      $mdToast.showSimple(`Welcome to ways2go, ${profile.displayName}`);
-    })
-    .catch( err => $mdToast.showSimple(err.data));
+  this.$onInit = () => {
+    $log.debug('home init this', this);
+
+    reviewService.fetchReviews(this.profile)
+    .then( reviews => {
+      this.reviews = reviews;
+    });
   };
-
-  this.fetchProfile();
-  $rootScope.$on('$locationChangeSuccess', () => {
-  });
+  $log.debug('home this', this);
 }

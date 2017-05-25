@@ -16,6 +16,17 @@ function routerConfig($stateProvider, $urlRouterProvider) {
       controller: 'HomeController',
       controllerAs: 'homeCtrl',
       resolve: {
+        profileService: 'profileService',
+        wayService: 'wayService',
+        reviewService: 'reviewService',
+        profile: function(profileService) {
+          return profileService.fetchProfile()
+          .then( profile => profile);
+        },
+        ways: function(wayService) {
+          return wayService.fetchWays()
+          .then( ways => ways);
+        },
         isAuthorized
       }
     },
@@ -60,33 +71,6 @@ function routerConfig($stateProvider, $urlRouterProvider) {
         myProfile,
         isAuthorized
       }
-    },
-    {
-      name: 'test',
-      url: '/test',
-      template: require('../view/test/test.html'),
-      controller: 'TestController',
-      controllerAs: 'testCtrl',
-      resolve: {
-        isAuthorized
-      },
-    },
-    {
-      name: 'resolve',
-      url: '/resolve',
-      template: require('../view/resolve/resolve.html'),
-      controller: 'ResolveController',
-      controllerAs: 'resolveCtrl',
-      resolve: {
-        authService: 'authService',
-        profileService: 'profileService',
-        testresolve: function() {
-          return 'ayo';
-        },
-        myprofile: function(profileService, $q, $location, $mdToast) {
-          return;
-        },
-      },
     }
   ];
 

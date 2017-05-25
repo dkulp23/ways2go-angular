@@ -1,56 +1,49 @@
-<md-dialog aria-label="View OneProfile">
-  <form ng-cloak>
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <md-truncate flex>{{ viewOneProfileCtrl.profile.displayName }}</md-truncate>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="viewOneProfileCtrl.closeDialog()">
-          <md-icon ng-md-icon icon="highlight_off"></md-icon>
+<md-dialog aria-label="View OneProfile" layout="column">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-truncate flex>{{ viewOneProfileCtrl.profile.displayName }}</md-truncate>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="viewOneProfileCtrl.closeDialog()">
+        <md-icon ng-md-icon icon="highlight_off"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <md-card flex>
+      <img ng-src="{{ viewOneProfileCtrl.profile.photo }}"
+      alt="photo of {{ viewOneProfileCtrl.profile.displayName }}"
+      class="md-card-image">
+      <md-card-title layout="column">
+        <md-card-title-text>
+          <span class="md-headline">{{viewOneProfileCtrl.profile.displayName}}</span>
+        </md-card-title-text>
+        <jk-rating-stars read-only="true"
+          rating="viewOneProfileCtrl.avgReview">
+        </jk-rating-stars>
+      </md-card-title>
+      <md-card-content layout-align="space-around">
+        <p>{{ viewOneProfileCtrl.profile.bio }}</p>
+      </md-card-content>
+      <span flex></span>
+      <md-card-actions>
+        <md-button aria-label="menu" class="md-fab md-raised md-mini" ng-click="viewOneProfileCtrl.sendMessage($event, true, viewOneProfileCtrl.profile)">
+          <md-icon ng-md-icon icon="message"></md-icon>
         </md-button>
-      </div>
-    </md-toolbar>
 
-    <md-dialog-content layout-margin layout-padding layout="column" flex-sm>
-      <md-card>
-        <img ng-src="{{ viewOneProfileCtrl.profile.photo }}"
-        alt="photo of {{ viewOneProfileCtrl.profile.displayName }}"
-        class="md-card-image">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">{{viewOneProfileCtrl.profile.displayName}}</span>
-          </md-card-title-text>
-        </md-card-title>
-        <md-card-content>
-          <p>{{ viewOneProfileCtrl.profile.bio }}</p>
-        </md-card-content>
-        <span flex></span>
-        <md-card-actions>
-          <md-button aria-label="menu" class="md-fab md-raised md-mini" ng-click="viewOneProfileCtrl.sendMessage($event, true, viewOneProfileCtrl.profile)">
-            <md-icon ng-md-icon icon="message"></md-icon>
-          </md-button>
-
-          <md-button aria-label="Twitter" class="md-fab md-raised md-mini" ng-click="viewOneProfileCtrl.linkMediaSite('twitter', viewOneProfileCtrl.profile.socialMedia.twitter)">
-            <md-icon ng-md-icon icon="twitter" aria-label="Twitter"></md-icon>
-          </md-button>
-          <md-button aria-label="Facebook" class="md-fab md-raised md-mini" ng-click="viewOneProfileCtrl.linkMediaSite('facebook', viewOneProfileCtrl.profile.socialMedia.facebook)">
-            <md-icon ng-md-icon icon="facebook-box" aria-label="Facebook"></md-icon>
-          </md-button>
-          <md-button aria-label="Google Plus" class="md-fab md-raised md-mini" ng-click="viewOneProfileCtrl.linkGoogle(viewOneProfileCtrl.profile.socialMedia.googlePlus)">
-            <md-icon ng-md-icon icon="google-plus-box" aria-label="Google Plus"></md-icon>
-          </md-button>
-          <md-button aria-label="LinkedIn" class="md-fab md-raised md-mini" ng-click="viewOneProfileCtrl.linkedIn(viewOneProfileCtrl.profile.socialMedia.linkedIn)">
-            <md-icon ng-md-icon icon="linkedin-box" aria-label="LinkedIn"></md-icon>
-          </md-button>
+        <md-button aria-label="Twitter" class="md-fab md-raised md-mini" ng-click="viewOneProfileCtrl.linkMediaSite('twitter', viewOneProfileCtrl.profile.socialMedia.twitter)">
+          <md-icon ng-md-icon icon="twitter" aria-label="Twitter"></md-icon>
+        </md-button>
+        <md-button aria-label="Facebook" class="md-fab md-raised md-mini" ng-click="viewOneProfileCtrl.linkMediaSite('facebook', viewOneProfileCtrl.profile.socialMedia.facebook)">
+          <md-icon ng-md-icon icon="facebook-box" aria-label="Facebook"></md-icon>
+        </md-button>
+        <md-button aria-label="Google Plus" class="md-fab md-raised md-mini" ng-click="viewOneProfileCtrl.linkGoogle(viewOneProfileCtrl.profile.socialMedia.googlePlus)">
+          <md-icon ng-md-icon icon="google-plus-box" aria-label="Google Plus"></md-icon>
+        </md-button>
+        <md-button aria-label="LinkedIn" class="md-fab md-raised md-mini" ng-click="viewOneProfileCtrl.linkedIn(viewOneProfileCtrl.profile.socialMedia.linkedIn)">
+          <md-icon ng-md-icon icon="linkedin-box" aria-label="LinkedIn"></md-icon>
+        </md-button>
       </md-card-actions>
     </md-card>
-    </md-dialog-content>
-
-    <md-dialog-actions>
-      <md-button ng-click="viewOneProfileCtrl.joinSubmit()" class="md-primary md-raised" layout layout-align="center center">
-        <span ng-show="!viewOneProfileCtrl.isLoading">Request to Join</span>
-        <md-progress-circular md-mode="indeterminate" ng-show="viewOneProfileCtrl.isLoading" md-diameter="20" class="md-accent md-hue-1 float-left"></md-progress-circular>
-      </md-button>
-    </md-dialog-actions>
-
-  </form>
+  </md-dialog-content>
 </md-dialog>

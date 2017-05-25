@@ -1,52 +1,49 @@
-<!-- <section layout="column"> -->
-  <section layout="vertical">
-    <md-sidenav
-        class="md-sidenav-left"
-        md-component-id="left"
-        md-is-locked-open="$mdMedia('gt-sm')"
-        layout-fill layout-padding flex>
-      <md-toolbar>
-        <div class="md-toolbar-tools">
-          <md-truncate>{{ displayProfileCtrl.profile.fullName }}</md-truncate>
+  <md-sidenav
+      class="md-sidenav-left"
+      md-component-id="left"
+      md-is-locked-open="$mdMedia('gt-sm')"
+      md-disable-scroll-target
+      layout-fill layout-padding>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <md-truncate>{{ displayProfileCtrl.profile.fullName }}</md-truncate>
 
-          <span flex></span>
-          <md-button class="md-fab md-mini" aria-label="Edit Profile" ng-click="displayProfileCtrl.editProfile(true)">
-            <md-icon ng-md-icon icon="create"></md-icon>
-          </md-button>
-          <md-button class="md-fab md-mini" aria-label="Delete Profile" ng-click="displayProfileCtrl.deleteProfile()">
-            <md-icon ng-md-icon icon="delete_sweep"></md-icon>
-          </md-button>
-        </div>
-      </md-toolbar>
+        <span flex></span>
+        <md-button class="md-icon-button" aria-label="Edit Profile" ng-click="displayProfileCtrl.editProfile(true)">
+          <md-tooltip md-direction="left">Edit Profile</md-tooltip>
+          <md-icon ng-md-icon icon="create"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
 
-      <md-card flex>
-        <img ng-src="{{ displayProfileCtrl.profile.photo }}"
-        alt="photo of {{displayProfileCtrl.profile.displayName}}"
-        class="md-media-xl card-media">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">{{displayProfileCtrl.profile.displayName}}</span>
-          </md-card-title-text>
-        </md-card-title>
-        <md-card-content layout="columns" layout-align="space-between">
-          <p>{{ displayProfileCtrl.profile.bio }}</p>
-        </md-card-content>
-      <md-content>
-        <md-button aria-label="Twitter" class="md-fab md-raised md-mini" ng-click="displayProfileCtrl.linkMediaSite('twitter', displayProfileCtrl.profile.socialMedia.twitter)">
-          <md-icon ng-md-icon icon="twitter" aria-label="Twitter"></md-icon>
-        </md-button>
-        <md-button aria-label="Facebook" class="md-fab md-raised md-mini" ng-click="displayProfileCtrl.linkMediaSite('facebook', displayProfileCtrl.profile.socialMedia.facebook)">
-          <md-icon ng-md-icon icon="facebook-box" aria-label="Facebook"></md-icon>
-        </md-button>
-        <md-button aria-label="Google Plus" class="md-fab md-raised md-mini" ng-click="displayProfileCtrl.linkGoogle(displayProfileCtrl.profile.socialMedia.googlePlus)">
-          <md-icon ng-md-icon icon="google-plus-box" aria-label="Google Plus"></md-icon>
-        </md-button>
-        <md-button aria-label="LinkedIn" class="md-fab md-raised md-mini" ng-click="displayProfileCtrl.linkedIn(displayProfileCtrl.profile.socialMedia.linkedIn)">
-          <md-icon ng-md-icon icon="linkedin-box" aria-label="LinkedIn"></md-icon>
-        </md-button>
-      </md-content>
-    </md-card>
-
-    </md-sidenav>
-  </section>
-<!-- </section> -->
+  <md-card flex>
+    <img ng-src="{{ displayProfileCtrl.profile.photo }}"
+    alt="photo of {{displayProfileCtrl.profile.displayName}}"
+    class="md-media-xl card-media">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{displayProfileCtrl.profile.displayName}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content layout="column" layout-align="space-between">
+      <jk-rating-stars read-only="true"
+      rating="displayProfileCtrl.avgReview">
+      </jk-rating-stars>
+      <p>{{ displayProfileCtrl.profile.bio }}</p>
+    </md-card-content>
+    <md-content>
+      <md-button aria-label="Twitter" class="md-fab md-raised md-mini" ng-click="displayProfileCtrl.linkMediaSite('twitter', displayProfileCtrl.profile.socialMedia.twitter)">
+        <md-icon ng-md-icon icon="twitter" aria-label="Twitter"></md-icon>
+      </md-button>
+      <md-button aria-label="Facebook" class="md-fab md-raised md-mini" ng-click="displayProfileCtrl.linkMediaSite('facebook', displayProfileCtrl.profile.socialMedia.facebook)">
+        <md-icon ng-md-icon icon="facebook-box" aria-label="Facebook"></md-icon>
+      </md-button>
+      <md-button aria-label="Google Plus" class="md-fab md-raised md-mini" ng-click="displayProfileCtrl.linkGoogle(displayProfileCtrl.profile.socialMedia.googlePlus)">
+        <md-icon ng-md-icon icon="google-plus-box" aria-label="Google Plus"></md-icon>
+      </md-button>
+      <md-button aria-label="LinkedIn" class="md-fab md-raised md-mini" ng-click="displayProfileCtrl.linkedIn(displayProfileCtrl.profile.socialMedia.linkedIn)">
+        <md-icon ng-md-icon icon="linkedin-box" aria-label="LinkedIn"></md-icon>
+      </md-button>
+    </md-content>
+  </md-card>
+</md-sidenav>

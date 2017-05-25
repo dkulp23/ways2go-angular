@@ -30,6 +30,24 @@ function EditProfileController($log, $window, $location, $mdDialog, $mdToast, pr
     });
   };
 
+  this.deleteProfile = function() {
+    $log.debug('DisplayProfileController.deleteProfile');
+
+    this.isLoading = true;
+
+    profileService.deleteProfile()
+    .then( () => {
+      $mdToast.showSimple('profile deleted')
+      .then( () => {
+        $location.url('/join');
+        $mdDialog.hide();
+      });
+    })
+    .catch( err => {
+      $mdToast.showSimple(err.data);
+    });
+  };
+
   this.closeDialog = function() {
     $mdDialog.hide();
   };

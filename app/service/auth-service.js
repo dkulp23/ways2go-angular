@@ -1,8 +1,9 @@
+/* global __API_URL__ */
 'use strict';
 
-module.exports = ['$q', '$log', '$http', '$window', '$location', '$mdToast', authService];
+module.exports = ['$q', '$log', '$http', '$window', '$location', '$mdToast', '$rootScope', authService];
 
-function authService($q, $log, $http, $window, $location, $mdToast) {
+function authService($q, $log, $http, $window, $location, $mdToast, $rootScope) {
   $log.debug('authService');
 
   let service = {};
@@ -10,17 +11,14 @@ function authService($q, $log, $http, $window, $location, $mdToast) {
   service.isAuthorized = false;
 
   service.authorize = function() {
-    console.log('in authorize', service.isAuthorized);
     if (service.isAuthorized) return $q.resolve();
 
     $mdToast.showSimple('Please login');
     $location.url('/');
-    console.log('hit');
     return $q.reject();
   };
 
   const setToken = (_token) => {
-  // function setToken(_token) {
     $log.debug('authService.setToken');
 
     if (!_token) {
@@ -49,7 +47,7 @@ function authService($q, $log, $http, $window, $location, $mdToast) {
   service.signup = function(user) {
     $log.debug('authService.signup');
 
-    let url = `${__API_URL__}/api/signup`; //eslint-disable-line
+    let url = `${__API_URL__}/api/signup`;
     $log.log('url', url);
     let config = {
       headers: {
@@ -72,7 +70,7 @@ function authService($q, $log, $http, $window, $location, $mdToast) {
   service.login = function(user) {
     $log.debug('authService.login');
 
-    let url = `${__API_URL__}/api/signin` //eslint-disable-line
+    let url = `${__API_URL__}/api/signin`;
     let base64 = $window.btoa(`${user.username}:${user.password}`);
     let config = {
       headers: {
@@ -97,7 +95,7 @@ function authService($q, $log, $http, $window, $location, $mdToast) {
 
     return service.getToken()
     .then( token => {
-      let url = `${__API_URL__}/api/user` //eslint-disable-line
+      let url = `${__API_URL__}/api/user`;
       let config = {
         headers: {
           Accept: 'application/json',
@@ -123,7 +121,7 @@ function authService($q, $log, $http, $window, $location, $mdToast) {
 
     return service.getToken()
     .then( token => {
-      let url = `${__API_URL__}/api/user`; //eslint-disable-line
+      let url = `${__API_URL__}/api/user`;
       let config = {
         headers: {
           Authorization: `Bearer ${token}`
@@ -148,6 +146,7 @@ function authService($q, $log, $http, $window, $location, $mdToast) {
     $window.localStorage.removeItem('token');
     service.isAuthorized = false;
     token = null;
+    $rootScope.$broadcast('logout');
     return $q.resolve();
   };
 

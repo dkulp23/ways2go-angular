@@ -162,7 +162,6 @@ function wayService($q, $log, $http, authService) {
       return res.data;
     })
     .catch( err => {
-      $log.error(err.message);
       return $q.reject(err);
     });
   };
@@ -191,7 +190,6 @@ function wayService($q, $log, $http, authService) {
       return res.data;
     })
     .catch( err => {
-      $log.error(err.message);
       return $q.reject(err);
     });
   };

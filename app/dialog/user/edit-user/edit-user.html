@@ -44,8 +44,17 @@
       <md-button
         ng-show="editUserCtrl.isAuthorized"
         ng-click="editUserCtrl.goHome()"
-        class="md-primary md-raised" layout layout-align="center center">
-        <span>take me to my homepage</span>
+        class="md-icon-button">
+        <md-tooltip md-autohide md-direction="right">homepage</md-tooltip>
+        <md-icon ng-md-icon icon="home"></md-icon>
+      </md-button>
+      <span flex></span>
+      <md-button
+        ng-show="editUserCtrl.isAuthorized"
+        ng-click="editUserCtrl.deleteUser()"
+        class="md-icon-button md-warn" aria-label="delete user">
+        <md-tooltip md-direction="left" md-autohide>delete account</md-tooltip>
+        <md-icon ng-md-icon icon="delete"></md-icon>
       </md-button>
     </md-dialog-actions>
 

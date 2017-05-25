@@ -21,13 +21,4 @@ function WayControlController($log, $mdDialog, $mdToast,$scope, $mdMedia) {
     $mdDialog.show(Object.assign(createWayComponent, dialogConfig));
   };
 
-  // this.toggleView = function() {
-  //   this.mapView = !this.mapView;
-  //
-  // };
-  //
-  // this.closeDialog = function() {
-  //   $mdDialog.hide();
-  // };
-
 }

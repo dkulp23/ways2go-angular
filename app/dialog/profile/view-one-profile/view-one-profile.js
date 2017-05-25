@@ -6,36 +6,18 @@ const createMessageDialog = require('../../message/profile-message/profile-messa
 
 module.exports = {
   template: require('./view-one-profile.html'),
-  controller: ['$log', '$mdDialog', '$mdMedia', '$mdToast','wayService', '$scope', '$window', 'messageService', 'profileService', 'profile', ViewOneProfileController],
+  controller: ['$log', '$mdDialog', '$mdMedia', '$window', 'reviewService', 'profile',  'reviews', ViewOneProfileController],
   controllerAs: 'viewOneProfileCtrl'
 };
 
-function ViewOneProfileController($log, $mdDialog, $mdMedia, $mdToast, wayService, $scope, $window, messageService, profileService, profile) {
+function ViewOneProfileController($log, $mdDialog, $mdMedia, $window, reviewService, profile, reviews) {
 
   this.profile = profile;
+  this.reviews = reviews;
   this.isLoading = false;
-
-  this.joinSubmit = function() {
-    $log.debug('viewOneProfileCtrl.joinSubmit');
-    this.isLoading = true;
-
-    const joinMessage = {
-      subject: `${this.profile.displayName} wants to join your way!`,
-      text: `Please add me to way ${this.way._id}`,
-      toProfileID: this.way.wayerz[0]._id
-    };
-
-    messageService.createMessage(joinMessage)
-    .then( () => {
-      $mdToast.showSimple('Request to Join Sent Successfully!');
-      this.isLoading = false;
-      $mdDialog.hide();
-    })
-    .catch( err => {
-      $mdToast.showSimple(err.data);
-      this.isLoading = false;
-    });
-  };
+  this.avgReview = this.reviews.reduce((acc, ele) => {
+    return acc + ele['rating'];
+  }, 0) / this.reviews.length;
 
   this.sendMessage = function($event, bindFlag, msgRecipient) {
     $log.debug('viewOneProfileCtrl.sendMessage');

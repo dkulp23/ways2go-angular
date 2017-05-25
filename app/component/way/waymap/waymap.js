@@ -18,20 +18,19 @@ function WayMapController($log, $http, $interval, NgMap, wayService, $mdMedia, $
   $log.debug('WayMapController');
 
   this.$onInit = () => {
-    console.log('waymap oninit ways', this.ways);
+    console.log('waymap oninit this', this);
     profileService.fetchProfile()
     .then( profile => {
       this.profile = profile;
-      console.log(this.profile);
 
-      this.centerOnLoad = [ Number(this.profile.address[0].lat), Number(this.profile.address[0].lat)];
+      this.centerOnLoad = [ Number(this.profile.address[0].lat), Number(this.profile.address[0].lng)];
 
       this.startMarkers = [];
       this.endMarkers = [];
       this.googlePaths = [];
 
       const drawWays = () => {
-        console.log('this in draw ways', this);
+        console.log('up in draw ways');
         NgMap.getMap().then( map => {
 
           this.startMarkers.forEach( marker => marker.setMap(null));
@@ -41,24 +40,46 @@ function WayMapController($log, $http, $interval, NgMap, wayService, $mdMedia, $
           this.endMarkers = [];
           this.googlePaths = [];
 
-          console.log('draw ways this.ways', this.ways);
-
           this.ways.forEach( way => {
 
             let startPos = new google.maps.LatLng(Number(way.startLocation.lat), Number(way.startLocation.lng));
             let endPos = new google.maps.LatLng(Number(way.endLocation.lat), Number(way.endLocation.lng));
 
+            let startMarkerSVG = `data:image/svg+xml;utf-8, \
+            <svg width="24" height="24" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"> \
+            <circle cx="12" cy="12" r="11" fill="green" stroke="black" stroke-width="2"/>\
+            </svg>`;
+
+            let endMarkerSVG = `data:image/svg+xml;utf-8, \
+            <svg width="24" height="24" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"> \
+            <path fill="red" stroke="white" stroke-width="2" d="M0 8L0 16L8 24L16 24L24 16L24 8L16 0L8 0z" ></path> \
+            </svg>`;
+
+
+
             let startMarker = new google.maps.Marker({
               map: map,
               position: startPos,
-              wayID: way._id
+              icon:{
+                anchor: new google.maps.Point(12, 12),
+                url: startMarkerSVG,
+              },
+              wayID: way._id,
+              zIndex: 1
+
             });
 
             let endMarker = new google.maps.Marker({
               map: map,
               position: endPos,
-              wayID: way._id
+              icon:{
+                anchor: new google.maps.Point(12, 12),
+                url: endMarkerSVG,
+              },
+              wayID: way._id,
+              zIndex: 1
             });
+
 
             let waypath = [
               {
@@ -74,12 +95,12 @@ function WayMapController($log, $http, $interval, NgMap, wayService, $mdMedia, $
             let dash = {
               path: 'M -1,1 0,-1 1,1',
               strokeOpacity: 1,
-              scale: 3.5
+              scale: 3
             };
 
             let color = '';
             if (way.profileID === this.profile._id) {
-              color = '#3f51b5';
+              color = '#0D47A1';
             } else color = '#757575';
 
             let googlePath = new google.maps.Polyline({
@@ -91,7 +112,7 @@ function WayMapController($log, $http, $interval, NgMap, wayService, $mdMedia, $
               icons: [{
                 icon: dash,
                 offset: '0',
-                repeat: '20px'
+                repeat: '15px'
               }],
               wayID: way._id
             });
@@ -137,11 +158,28 @@ function WayMapController($log, $http, $interval, NgMap, wayService, $mdMedia, $
 
       //map data
       this.mapInit = () => {
+        console.log('reg mapinit this', this);
         NgMap.getMap().then( map => {
           this.isMapInitialized = true;
           this.map = map;
 
           drawWays();
+          let homeMarkerSVG = `data:image/svg+xml;utf-8, \
+          <svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> \
+          <path fill="#CDDC39" stroke="#2196F3" stroke-width="2px" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path> \
+          </svg>`;
+          var homeMarker = new google.maps.Marker({
+            map: this.map,
+            position: new google.maps.LatLng(Number(this.profile.address[0].lat), Number(this.profile.address[0].lng)),
+            icon:{
+              anchor: new google.maps.Point(12, 12),
+              url: homeMarkerSVG,
+            },
+            animation: google.maps.Animation.DROP,
+            zIndex: 10
+          });
+
+          this.map.setCenter(new google.maps.LatLng(Number(this.profile.address[0].lat), Number(this.profile.address[0].lng)));
         });
       };
 
@@ -160,7 +198,6 @@ function WayMapController($log, $http, $interval, NgMap, wayService, $mdMedia, $
 
       $scope.$on('wayChange', () => {
         $log.debug('waychange broadcast');
-        console.log('waychange broadcast');
 
         drawWays();
       });

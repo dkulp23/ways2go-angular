@@ -1,0 +1,33 @@
+<md-dialog aria-label="Create a Review" layout="column">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Leave a review for {{createReviewCtrl.profile.displayName}}</h2>
+      <span flex></span>
+      <md-button class="md-icon-button"
+        ng-click="createReviewCtrl.closeDialog()">
+        <md-icon ng-md-icon icon="highlight_off"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content layout-margin layout-padding>
+    <jk-rating-stars
+    rating="createReviewCtrl.review.rating">
+    </jk-rating-stars>
+    <md-input-container class="md-icon-float md-block">
+      <md-icon ng-md-icon icon="create"></md-icon>
+      <textarea placeholder="how was the ride?"
+        md-maxlength="100"
+        ng-model="createReviewCtrl.review.comment"
+        rows="3"></textarea>
+    </md-input-container>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-click="createReviewCtrl.submitReview()"
+      class="md-primary md-raised">
+      <span ng-show="!createReviewCtrl.isLoading">submit review</span>
+      <md-progress-circular ng-show="createReviewCtrl.isLoading">
+      </md-progress-circular>
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

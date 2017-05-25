@@ -12,8 +12,12 @@
     </md-toolbar>
     <!-- END OF HEADER -->
 
-    <md-dialog-content layout-margin layout-padding>
-      <p>{{ readMessageCtrl.message.text }}</p>
+    <md-dialog-content layout="column" layout-margin layout-padding>
+      <p>{{ readMessageCtrl.showMessage }}</p>
+      <md-button ng-click="readMessageCtrl.addWayerSubmit()" class="md-primary md-raised" ng-show="readMessageCtrl.isAddMessage">
+        <span ng-show="!readMessage.isLoadingWayer">Add</span>
+        <md-progress-circular md-mode="indeterminate" ng-show="readMessageCtrl.isLoadingWayer" md-diameter="20" class="md-accent"></md-progress-circular>
+      </md-button>
     </md-dialog-content>
 
     <!-- INSERT ACTIONS/OR WHATEVER YOU WANT AS A FOOTER BELOW -->

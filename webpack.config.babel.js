@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const dotenv = require('dotenv');
 const webpack = require('webpack');
 const HTMLPlugin = require('html-webpack-plugin');
@@ -15,16 +16,25 @@ module.exports = () => {
     devtool: 'eval',
     entry: `${__dirname}/app/entry.js`,
     output: {
-      filename: 'bundle.js',
-      path: `${__dirname}/build`,
+      filename: '[name].[chunkhash].js',
+      path: path.resolve(__dirname, 'build')
     },
     plugins: [
-      new HTMLPlugin({ template: `${__dirname}/app/index.html` }),
+      new HTMLPlugin({ template: path.resolve(__dirname, './app/index.html') }),
       new ExtractTextPlugin('bundle.css'),
       new webpack.DefinePlugin({
         __API_URL__: JSON.stringify(process.env.API_URL),
         __DEBUG__: JSON.stringify(!production)
       }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks: function(module) {
+          return module.context && module.context.indexOf('node_modules') !== -1;
+        }
+      }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest'
+      })
     ],
     module: {
       rules: [
@@ -36,6 +46,13 @@ module.exports = () => {
         {//:::: html ::::
           test: /\.html$/,
           use: 'html-loader',
+        },
+        {//:::: css ::::
+          test: /\.css$/,
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader'
+          })
         },
         { //:::: sass ::::
           test: /\.scss$/,

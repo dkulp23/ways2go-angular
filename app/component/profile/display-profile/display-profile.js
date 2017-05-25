@@ -6,15 +6,39 @@ const editProfileComponent = require('../../../dialog/profile/edit-profile/edit-
 
 module.exports = {
   template: require('./display-profile.html'),
-  controller: ['$log', '$mdToast', '$mdSidenav', '$rootScope', '$scope', '$mdMedia', '$mdDialog', '$location', '$window', 'profileService', DisplayProfileController],
+  controller: ['$log', '$mdToast', '$mdSidenav', '$rootScope', '$scope', '$mdMedia', '$mdDialog', '$location', '$window', 'profileService', 'reviewService', DisplayProfileController],
   controllerAs: 'displayProfileCtrl',
   bindings: {
     profile: '<'
   }
 };
 
-function DisplayProfileController($log, $mdToast, $mdSidenav, $rootScope, $scope, $mdMedia, $mdDialog, $location, $window, profileService) {
+function DisplayProfileController($log, $mdToast, $mdSidenav, $rootScope, $scope, $mdMedia, $mdDialog, $location, $window, profileService, reviewService) {
   $log.debug('DisplayProfileController');
+
+  this.$onInit = () => {
+    profileService.getProfile()
+    .then( profile => {
+      this.profile = profile;
+    });
+    this.calcAvgReview(this.profile);
+  };
+
+  this.calcAvgReview = function(profile) {
+    $log.debug('DisplayProfileController.avgReview');
+
+    return reviewService.fetchReviews(profile)
+    .then( reviews => {
+      let sum = reviews.reduce((acc, ele) => {
+        return acc + ele['rating'];
+      }, 0);
+      let avg = sum / reviews.length;
+      this.avgReview = avg;
+    })
+    .catch( err => {
+      $mdToast.showSimple(err.data);
+    });
+  };
 
   this.editProfile = function(bindFlag) {
     const dialogConfig = {
@@ -23,24 +47,6 @@ function DisplayProfileController($log, $mdToast, $mdSidenav, $rootScope, $scope
     };
 
     $mdDialog.show(Object.assign(editProfileComponent, dialogConfig));
-  };
-
-  this.deleteProfile = function() {
-    $log.debug('DisplayProfileController.deleteProfile');
-
-    this.isLoading = true;
-
-    profileService.deleteProfile()
-    .then( () => {
-      $mdToast.showSimple('profile deleted')
-      .then( () => {
-        $location.url('/join');
-        $mdDialog.hide();
-      });
-    })
-    .catch( err => {
-      $mdToast.showSimple(err.data);
-    });
   };
 
   this.closeProfile = function() {

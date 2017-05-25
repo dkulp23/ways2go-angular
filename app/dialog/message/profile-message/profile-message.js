@@ -35,4 +35,8 @@ function ProfileMessageController($log, $mdDialog, $mdToast, messageService, msg
       this.isLoading = false;
     });
   };
+
+  this.closeDialog = function() {
+    $mdDialog.hide();
+  };
 }

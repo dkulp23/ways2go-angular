@@ -1,5 +1,8 @@
 .view-way {
 
+  .fixed {
+  }
+
   .map-controls {
     position: fixed;
     z-index: 10;
@@ -10,6 +13,7 @@
     // top: 56px;
     // width: 50%;
     // margin: 0;
+    z-index: 10;
     padding-left: 10px;
     border-radius: 10px;
   }

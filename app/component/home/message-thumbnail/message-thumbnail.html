@@ -1,4 +1,4 @@
-<md-list-item class="md-3-line" ng-repeat="message in messagethumbnailCtrl.messages" ng-click="messagethumbnailCtrl.readMessage($event, true, message)">
+<md-list-item class="md-3-line" ng-repeat="message in messagethumbnailCtrl.messages | orderBy : 'timestamp' : true " ng-click="messagethumbnailCtrl.readMessage($event, true, message)">
   <img ng-src="{{ message.photo }}" class="md-avatar" alt="{{ message.photo }}" />
   <div class="md-list-item-text" layout="row">
     <div flex class="md-truncate">

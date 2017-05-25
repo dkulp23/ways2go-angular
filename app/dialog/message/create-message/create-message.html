@@ -24,7 +24,7 @@
       <md-input-container class="md-icon-float md-block">
         <label>to:</label>
         <md-select ng-model="createMessageCtrl.profileToAdd" md-on-open="createMessageCtrl.loadAllProfiles()">
-          <md-option ng-value="profileToAdd" ng-repeat="profileToAdd in createMessageCtrl.allProfiles">{{profileToAdd.displayName}}</md-option>
+          <md-option ng-value="profileToAdd" ng-repeat="profileToAdd in createMessageCtrl.allProfiles | orderBy : 'displayName' ">{{profileToAdd.displayName}}</md-option>
         </md-select>
         </md-input-container>
 

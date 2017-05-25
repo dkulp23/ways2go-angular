@@ -1,21 +1,20 @@
-<section class="view-home" layout layout-fill>
-  <div layout-padding>
-    <display-profile profile="homeCtrl.profile" flex="33">
-    </display-profile>
+<section class="view-home" layout flex="auto">
+  <display-profile profile="homeCtrl.profile" flex-gt-sm="29"></display-profile>
+
+  <div layout="column" flex-gt-sm="70" flex-sm="auto" class="resource-thumbnails" layout-fill>
+    <md-card flex="initial">
+      <md-subheader class="md-no-sticky">Recent Ways</md-subheader>
+      <way-thumbnail ways="homeCtrl.ways"> </way-thumbnail>
+    </md-card>
+    <md-card flex>
+      <md-subheader class="md-no-sticky">Recent Messages</md-subheader>
+      <div  style="overflow: scroll;">
+        <message-thumbnail incoming="true"></message-thumbnail>
+      </div>
+    </md-card>
+    <md-card  flex="initial">
+      <md-subheader class="md-no-sticky">My Reviews</md-subheader>
+      <review-thumbnail reviews="homeCtrl.reviews"></review-thumbnail>
+    </md-card>
   </div>
-  <div layout="column" layout-fill>
-    <way-thumbnail flex="66"> </way-thumbnail>
-
-
-<section>
-  <md-card>
-    <md-subheader class="md-no-sticky">My Messages</md-subheader>
-    <message-thumbnail  flex="66" incoming="true"></message-thumbnail>
-</md-card>
-</section>
-
-    <review-thumbnail flex="66"> </review-thumbnail>
-  </div>
-  <!-- <create-review></create-review>
-  <profile-thumbnail></profile-thumbnail> -->
 </section>

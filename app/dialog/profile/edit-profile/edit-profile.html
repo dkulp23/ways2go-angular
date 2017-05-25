@@ -80,7 +80,7 @@
             placeholder="LinkedIn"
             ng-model="editProfileCtrl.profile.socialMedia.linkedIn">
         </md-input-container>
-      </div>      
+      </div>
 
       <md-input-container class="md-icon-left">
         <md-icon ng-md-icon icon="portrait"></md-icon>
@@ -99,7 +99,15 @@
       <span ng-show="!editProfileCtrl.isLoading">send updates</span>
       <md-progress-circular md-mode="indeterminate" ng-show="editProfileCtrl.isLoading" md-diameter="20" class="md-accent md-hue-1 float-left"></md-progress-circular>
       </md-button>
+      <span flex></span>
+      <md-button class="md-icon-button md-warn" aria-label="Delete Profile" ng-click="editProfileCtrl.deleteProfile()">
+        <md-tooltip md-direction="left" md-autohide>delete profile</md-tooltip>
+        <md-icon ng-md-icon icon="delete"></md-icon>
+      </md-button>
     </md-dialog-actions>
-
   </form>
+
+    <md-dialog-content>
+
+    </md-dialog-content>
 </md-dialog>

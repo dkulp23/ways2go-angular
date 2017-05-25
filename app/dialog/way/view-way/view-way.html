@@ -38,20 +38,22 @@
             <md-list-item ng-show="viewWayCtrl.way.hour" layout="column">
               <div class="">
                 <md-icon ng-md-icon icon="access_time"></md-icon>
-                <span>{{viewWayCtrl.hour}}:{{viewWayCtrl.minutes}} {{viewWayCtrl.ampm}}</span>
+                <span>{{viewWayCtrl.hour}}:{{viewWayCtrl.showMinutes}} {{viewWayCtrl.ampm}}</span>
               </div>
             </md-list-item>
 
             <md-divider></md-divider>
 
             <md-subheader class="md-no-sticky">Wayerz</md-subheader>
-            <md-list-item ng-repeat="wayer in viewWayCtrl.way.wayerz" md-colors="{{ viewWayCtrl.way.profileID === wayer._id ? {backgroundColor: 'default-accent-100'} : '' }}">
-              <span><b>{{wayer.displayName}}</b></span>
-              <span>
-                <md-button ng-click="viewWayCtrl.viewProfile($event, true, wayer)" class="md-secondary md-raised" layout layout-align="center center">
-                  <span ng-show="!viewWayCtrl.isLoading" >Profile</span>
-                </md-button>
-              </span>
+            <md-list-item layout="row"
+              ng-repeat="wayer in viewWayCtrl.way.wayerz" md-colors="{{ viewWayCtrl.way.profileID === wayer._id ? {backgroundColor: 'swag-accent-300'} : '' }}" ng-click="viewWayCtrl.viewProfile($event, wayer)">
+              <h3>{{ viewWayCtrl.profile._id === wayer._id ? 'ME' : wayer.displayName}}</h3>
+              <span flex></span>
+              <md-button
+              ng-show="viewWayCtrl.isInWay && viewWayCtrl.profile._id !== wayer._id"
+              ng-click="viewWayCtrl.leaveReview($event, wayer, viewWayCtrl.way)" class="md-icon-button md-warn">
+                <md-icon ng-md-icon icon="grade"></md-icon>
+              </md-button>
             </md-list-item>
           </md-list>
       </md-content>

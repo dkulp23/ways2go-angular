@@ -1,47 +1,49 @@
 <md-dialog aria-label="Message to Profile">
-  <form ng-cloak>
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>Message to {{profileMessageCtrl.targetProfile.fullName}}</h2>
-        <span flex></span>
-        <md-button class="profileMessageCtrl.closeDialog()">
-          <md-icon ng-md-icon icon="highlight_off"></md-icon>
-        </md-button>
-      </div>
-    </md-toolbar>
-
-    <md-dialog-actions>
-      <md-button
-        ng-click="profileMessageCtrl.sendMessage()"
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Message to {{profileMessageCtrl.targetProfile.fullName}}</h2>
+      <span flex></span>
+      <md-button ng-click="profileMessageCtrl.closeDialog()"
         class="md-icon-button">
-        <md-icon
-          ng-show="!profileMessageCtrl.isLoading"
-          ng-md-icon icon="send">
-        <md-progress-circular md-mode="indeterminate"
-          ng-show="profileMessageCtrl.isLoading" md-diameter="20"
-          class="md-primary md-hue-1"></md-progress-circular>
+        <md-icon ng-md-icon icon="highlight_off"></md-icon>
       </md-button>
-    </md-dialog-actions>
+    </div>
+  </md-toolbar>
 
-    <md-dialog-content flex>
-      <md-content layout-padding class="md-icon-float">
-        <md-icon ng-md-icon icon="contact_mail"></md-icon>
-        to: {{profileMessageCtrl.targetProfile.displayName}}
-      </md-content>
-      <md-content layout-padding>
-        <md-input-container class="md-icon-float md-block">
-          <md-icon ng-md-icon icon="email"></md-icon>
-          <input type="text"
-          placeholder="subject"
-          ng-model="profileMessageCtrl.message.subject">
-        </md-input-container>
-      </md-content>
-      <md-content layout-padding>
-        <md-input-container class="md-icon-float md-block">
-          <md-icon ng-md-icon icon="create"></md-icon>
-          <textarea ng-model="profileMessageCtrl.message.text"
-          placeholder="text"
-          md-maxlength="500" rows="5" md-select-on-focus>
-          </textarea>
-        </md-input-container>
-      </md-content>
+  <md-dialog-actions>
+    <md-button
+      ng-click="profileMessageCtrl.sendMessage()"
+      class="md-icon-button md-accent">
+      <md-icon
+        ng-show="!profileMessageCtrl.isLoading"
+        ng-md-icon icon="send">
+      <md-progress-circular md-mode="indeterminate"
+        ng-show="profileMessageCtrl.isLoading" md-diameter="20"
+        class="md-primary md-hue-1"></md-progress-circular>
+    </md-button>
+  </md-dialog-actions>
+
+  <md-dialog-content flex>
+    <md-content layout-padding class="md-icon-float">
+      <md-icon ng-md-icon icon="contact_mail"></md-icon>
+      to: {{profileMessageCtrl.targetProfile.displayName}}
+    </md-content>
+    <md-content layout-padding>
+      <md-input-container class="md-icon-float md-block">
+        <md-icon ng-md-icon icon="email"></md-icon>
+        <input type="text"
+        placeholder="subject"
+        ng-model="profileMessageCtrl.message.subject">
+      </md-input-container>
+    </md-content>
+    <md-content layout-padding>
+      <md-input-container class="md-icon-float md-block">
+        <md-icon ng-md-icon icon="create"></md-icon>
+        <textarea ng-model="profileMessageCtrl.message.text"
+        placeholder="text"
+        md-maxlength="500" rows="5" md-select-on-focus>
+        </textarea>
+      </md-input-container>
+    </md-content>
+  </md-dialog-content>
+</md-dialog>

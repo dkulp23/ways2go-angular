@@ -1,8 +1,9 @@
+/* global angular __API_URL__ */
 'use strict';
 
-module.exports = ['$q', '$log', '$http', 'Upload', 'profileService', 'wayService', 'authService', reviewService];
+module.exports = ['$q', '$log', '$http', 'Upload', 'profileService', 'wayService', 'authService', '$rootScope', reviewService];
 
-function reviewService($q, $log, $http, Upload, profileService, wayService, authService) {
+function reviewService($q, $log, $http, Upload, profileService, wayService, authService, $rootScope) {
   $log.debug('reviewService');
 
   let service = {};
@@ -10,12 +11,18 @@ function reviewService($q, $log, $http, Upload, profileService, wayService, auth
   service.review = {};
   service.reviews = [];
 
+  service.getReviews = function() {
+    return service.reviews;
+  };
+
   service.createReview = function(profile, way, review) {
     $log.debug('reviewService.createReview');
 
+    review.wayID = way._id;
+
     return authService.getToken()
     .then( token => {
-      let url = `${__API_URL__}/api/wayerz/58f28a808907e600110fdb73/review` //eslint-disable-line
+      let url = `${__API_URL__}/api/wayerz/${profile._id}/review`;
       let config = {
         headers: {
           Accept: 'application/json',
@@ -28,7 +35,7 @@ function reviewService($q, $log, $http, Upload, profileService, wayService, auth
     .then( res => {
       $log.log('review creation success');
       let review = res.data;
-      service.reviews.unshift(review);
+      // service.reviews.unshift(review);
       return review;
     })
     .catch( err => {
@@ -42,7 +49,7 @@ function reviewService($q, $log, $http, Upload, profileService, wayService, auth
 
     return authService.getToken()
     .then( token => {
-      let url = `${__API_URL__}/api/review/:id` //eslint-disable-line
+      let url = `${__API_URL__}/api/review/:id`;
       let config = {
         headers: {
           Accept: 'application/json',
@@ -62,6 +69,38 @@ function reviewService($q, $log, $http, Upload, profileService, wayService, auth
       return $q.reject(err);
     });
   };
+
+  service.fetchReviews = function(profile) {
+    $log.debug('reviewService.fetchReviews');
+
+    return authService.getToken()
+    .then( token => {
+      let url = `${__API_URL__}/api/wayerz/${profile._id}/review`;
+      let config = {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      };
+
+      return $http.get(url, config);
+    })
+    .then( res => {
+      $log.log('review retrieved');
+      angular.copy(res.data, service.reviews);
+      return res.data;
+    })
+    .catch( err => {
+      $log.error(err.message);
+      return $q.reject(err);
+    });
+  };
+
+  $rootScope.$on('logout', () => {
+    service.review = {};
+    service.reviews = [];
+  });
 
   return service;
 }

@@ -1,44 +1,44 @@
 <section class="view-way" layout-fill>
   <div layout="row" class="map-controls" layout-margin>
-    <!-- <md-input-container
-      flex
-      class="md-block google-search fixed-control"
-      md-colors="{background: 'grey-800-.6'}">
-      <input
-        places-auto-complete
-        ng-model="wayCtrl.address"
-        component-restrictions="{country:'us'}"
-        type="{{wayCtrl.type}}"
-        on-place-changed="wayCtrl.placeChanged()"
-        md-colors="{color:'grey-10'}"/>
-    </md-input-container> -->
     <input
-      flex
-      class="google-search fixed-control"
-      md-colors="{background: 'grey-800'}"
       places-auto-complete
-      ng-model="wayCtrl.address"
+      md-whiteframe="4"
+      flex
+      class="google-search"
       component-restrictions="{country:'us'}"
       type="{{wayCtrl.type}}"
       on-place-changed="wayCtrl.placeChanged()"/>
 
     <md-button
+      md-whiteframe="24"
       flex="none"
-      class="md-fab md-warn md-hue-2 way-control-btn fixed-control" ng-click="wayCtrl.showWayControl($event, true)" aria-label="Way Control">
+      class="md-fab md-primary way-control-btn" ng-click="wayCtrl.showWayControl($event, true)" aria-label="Way Control">
       <md-icon ng-md-icon icon="settings"></md-icon>
     </md-button>
   </div>
 
+  <way-detail ways="wayCtrl.distanceWays" ng-show="!wayCtrl.mapView"></way-detail>
 
   <waymap ways="wayCtrl.distanceWays" ng-show="wayCtrl.mapView"></waymap>
   <!-- <waymap layout-fill ways="wayCtrl.distanceWays" ng-show="wayCtrl.mapView"></waymap> -->
 
   <div style="visibility: hidden">
       <div class="md-dialog-container" id="wayControl">
-        <md-dialog layout-margin layout-padding>
-          <h2 class="md-title">Radius</h2>
-          <md-slider flex md-discrete ng-model="wayCtrl.searchRadius" step="2" min="0" max="20" aria-label="search-radius" ng-change="wayCtrl.createDistanceWays()">
-          </md-slider>
+        <md-dialog layout-margin layout-padding layout="column">
+          <md-slider-container>
+            <md-slider flex md-discrete ng-model="wayCtrl.searchRadius" step="2" min="0" max="20" aria-label="search-radius"></md-slider>
+            <h3 class="">Radius</h3>
+          </md-slider-container>
+
+          <div>
+            <md-checkbox
+              ng-model="wayCtrl.showMyWays"
+              ng-true-value="'notshow'"
+              ng-false-value="'show'"
+              aria-label="Show My Ways">
+              Only My Ways
+            </md-checkbox>
+          </div>
 
           <md-button ng-click="wayCtrl.createWay($event, true)" class="md-raised md-warn md-hue-2">Create Way</md-button>
 
@@ -47,6 +47,5 @@
       </div>
   </div>
 
-  <way-detail ways="wayCtrl.distanceWays" ng-show="!wayCtrl.mapView"></way-detail>
 
 </section>
