@@ -71,23 +71,6 @@ function routerConfig($stateProvider, $urlRouterProvider) {
         myProfile,
         isAuthorized
       }
-    },
-    {
-      name: 'resolve',
-      url: '/resolve',
-      template: require('../view/resolve/resolve.html'),
-      controller: 'ResolveController',
-      controllerAs: 'resolveCtrl',
-      resolve: {
-        authService: 'authService',
-        profileService: 'profileService',
-        testresolve: function() {
-          return 'ayo';
-        },
-        myprofile: function(profileService, $q, $location, $mdToast) {
-          return;
-        },
-      },
     }
   ];
 
