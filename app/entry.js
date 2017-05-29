@@ -4,7 +4,7 @@ require('angular-material/angular-material.scss');
 require('./scss/main.scss');
 require('angular-jk-rating-stars/dist/jk-rating-stars.css');
 const logo = require('./assets/ways2go.svg');
-const background = require('./assets/background.jpg');
+// const background = require('./assets/background.jpg');
 
 const
   path = require('path'),
